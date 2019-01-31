@@ -4,12 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -17,24 +14,16 @@ import javax.persistence.Table;
  * @author Ivasch
  */
 @Entity
-@Table(name = "PRODUCT")
-public class Product implements Serializable {
+@Table(name = "PRODUCTSTATUS")
+public class ProductStatus implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "NAME")
-    private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY")
-    private Category category;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "STATUS")
-    private ProductStatus status;
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     public Integer getId() {
         return id;
@@ -44,26 +33,18 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -78,24 +59,16 @@ public class Product implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Product other = (Product) obj;
+        final ProductStatus other = (ProductStatus) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
 
-    public ProductStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ProductStatus status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", name=" + name + ", statusProduct=" + status + '}';
+        return "ProductStatus{" + "id=" + id + ", description=" + description + '}';
     }
 
 }

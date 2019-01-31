@@ -23,8 +23,13 @@ public class ProductController {
 
     @GetMapping("/listByCategory/{categoryId}")
     public ResponseEntity<List<Product>> listByCategory(@PathVariable Integer categoryId) {
-
         List<Product> products = productRepository.findProductByCategoryId(categoryId);
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/listByCategoryAndStatus/{categoryId}/{statusId}")
+    public ResponseEntity<List<Product>> listByCategoryAndStatus(@PathVariable Integer categoryId, @PathVariable Integer statusId) {
+        List<Product> products = productRepository.findProductByCategoryAndStatus(categoryId, statusId);
         return ResponseEntity.ok(products);
     }
 
