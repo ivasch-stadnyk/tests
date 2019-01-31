@@ -17,32 +17,54 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 public class CategoryControllerTest {
 
-	@Autowired
+    @Autowired
     private WebApplicationContext webApplicationContext;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	@Before
+    @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-	}
+    }
 
-	@Test
+    @Test
     public void listAll() throws Exception {
         mockMvc.perform(get("/category/listAll"))
-        .andExpect(status().isOk())
-	    		.andExpect(jsonPath("$", hasSize(3)))
-	        .andExpect(jsonPath("$[0].id", is(1)))
-	        .andExpect(jsonPath("$[0].name", is("Alimentos")))
-	        .andExpect(jsonPath("$[1].id", is(2)))
-	        .andExpect(jsonPath("$[1].name", is("Eletrodomésticos")))
-	        .andExpect(jsonPath("$[2].id", is(3)))
-	        .andExpect(jsonPath("$[2].name", is("Móveis")));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].name", is("Alimentos")))
+                .andExpect(jsonPath("$[1].id", is(2)))
+                .andExpect(jsonPath("$[1].name", is("Eletrodomésticos")))
+                .andExpect(jsonPath("$[2].id", is(3)))
+                .andExpect(jsonPath("$[2].name", is("Móveis")));
     }
+
+    @Test
+    public void findByCharE() throws Exception {
+        mockMvc.perform(get("/category/findByChar/e"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(2)))
+                .andExpect(jsonPath("$.name", is("Eletrodomésticos")));
+    }
+
+    @Test
+    public void findByCharA() throws Exception {
+        mockMvc.perform(get("/category/findByChar/a"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("Alimentos")));
+    }
+
+    @Test
+    public void findByCharW() throws Exception {
+        mockMvc.perform(get("/category/findByChar/w"))
+                .andExpect(status().isNoContent());
+    }
+
 }
